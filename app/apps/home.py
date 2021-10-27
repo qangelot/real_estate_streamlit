@@ -17,7 +17,7 @@ def app():
         Congratulations! Real Estate Analysis has been performed successfully 🎯 
         </div> <br>
         <br>
-        <div class="card mx-auto" style="width: 40rem;">
+        <div class="card mx-auto" style="width: 50rem;">
         <img class="card-img-top" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1073&q=80" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">Analysis of Real Estate in France</h5>
@@ -26,7 +26,7 @@ def app():
         </div>
         </div>
         """,
-        height=800
+        height=925
     )
     
     st.write("")

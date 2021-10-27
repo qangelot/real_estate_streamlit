@@ -31,7 +31,7 @@ def app():
             )
         )
 
-        fig_layout = dict(title = f"{col1} and valeur_fonciere",
+        fig_layout = dict(title = f"{col1} vs valeur_fonciere",
                         xaxis = dict(title = col1),
                         yaxis = dict(title = 'valeur_fonciere'),
                         )
@@ -58,7 +58,6 @@ def app():
     discrete = ['nombre_pieces_principales', 'mois_mutation', 'type_local']
     colors = ['#9960d6', '#26992e', '#b50d0d']
     for col, color in zip(discrete, colors):
-        # st.write(f"**{col} and valeur_fonciere**")
         plot_dist(sampled, col, color)  
 
 

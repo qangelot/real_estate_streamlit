@@ -28,9 +28,9 @@ def app():
             marker_color=color            )
         )
 
-        fig_layout = dict(title = f"{col} and valeur_fonciere",
+        fig_layout = dict(title = f"Distribution of {col}",
                         xaxis = dict(title = col, range=[0, df[col].quantile(.95)]),
-                        yaxis = dict(title = 'valeur_fonciere'),
+                        yaxis = dict(title = 'volume'),
                         )
 
         fig = dict(data=fig_graph, layout=fig_layout)
@@ -41,11 +41,9 @@ def app():
     continuous = ['valeur_fonciere', 'surface_reelle_bati', 'surface_terrain']
     colors = ['#9960d6', '#26992e', '#b50d0d']
     for col, color in zip(continuous, colors):
-        # st.write(f"**{col} and valeur_fonciere**")
         plot_dist(data20, col, color)  
 
     st.write("")
-
 
     st.subheader("**Discrete variables**")
 
