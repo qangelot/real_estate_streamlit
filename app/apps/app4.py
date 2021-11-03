@@ -35,6 +35,10 @@ def app():
 
 
     st.subheader("Geospatial analysis of major real estate transactions in France in 2020")
+    st.write("")
+
     st.write("Please do note that this is a macro analysis and some data isn't shown if the amount of transactions is below a certain threshold.")
     st.write("")
+    st.write("")
+
     map(sampled, midpoint)

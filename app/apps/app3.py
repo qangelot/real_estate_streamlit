@@ -34,6 +34,7 @@ def app():
         fig_layout = dict(title = f"{col1} vs valeur_fonciere",
                         xaxis = dict(title = col1),
                         yaxis = dict(title = 'valeur_fonciere'),
+                        paper_bgcolor="#F8F8F8"
                         )
 
         fig = dict(data=fig_graph, layout=fig_layout)

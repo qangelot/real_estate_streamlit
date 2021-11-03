@@ -10,6 +10,7 @@ from utils.utils import timed, data20, st
 
 def app(): 
 
+
     st.header("**Univariate analysis**")
 
     st.write("")
@@ -30,9 +31,10 @@ def app():
 
         fig_layout = dict(title = f"Distribution of {col}",
                         xaxis = dict(title = col, range=[0, df[col].quantile(.95)]),
-                        yaxis = dict(title = 'volume'),
+                        yaxis = dict(title = 'volume'),autosize=False,
+                        paper_bgcolor="#F8F8F8",
                         )
-
+        
         fig = dict(data=fig_graph, layout=fig_layout)
 
         st.plotly_chart(fig)
@@ -41,6 +43,7 @@ def app():
     continuous = ['valeur_fonciere', 'surface_reelle_bati', 'surface_terrain']
     colors = ['#9960d6', '#26992e', '#b50d0d']
     for col, color in zip(continuous, colors):
+        st.write("")
         plot_dist(data20, col, color)  
 
     st.write("")
@@ -49,7 +52,7 @@ def app():
 
     @timed
     def discrete_distri(df, col):
-        fig = go.Figure(data=[go.Pie(labels=df[col], values=df[col], hole=.25)])
+        fig = go.Figure(data=[go.Pie(labels=df[col], values=df[col], hole=.25)], layout=dict(paper_bgcolor="#F8F8F8"))
         st.plotly_chart(fig)
 
     st.write(f"**Distribution of nombre_pieces_principales**")

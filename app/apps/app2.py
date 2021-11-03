@@ -25,7 +25,7 @@ def app():
         fig.add_trace(go.Histogram(x=no_lot['valeur_fonciere'], 
             name="no_lot"))
         # Overlay both histograms
-        fig.update_layout(barmode='overlay', margin=dict(
+        fig.update_layout(barmode='overlay', paper_bgcolor="#F8F8F8", margin=dict(
                 l=0, r=0, b=0, t=0,
             ), legend=dict(
             orientation="h", yanchor="bottom",
@@ -46,7 +46,7 @@ def app():
         fig = px.scatter(df, x=col, y='valeur_fonciere', trendline="ols", 
             trendline_scope="overall",
             trendline_color_override="red")
-        fig.update_layout(barmode='overlay', margin=dict(
+        fig.update_layout(barmode='overlay',paper_bgcolor="#F8F8F8", margin=dict(
                 l=0, r=0, b=0, t=0,
             ), legend=dict(yanchor="top",
                 y=0.99, xanchor="left", x=0.01))
