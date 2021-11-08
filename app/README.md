@@ -6,4 +6,3 @@ In main repository :
 ```py 
 streamlit run app
 ```
-

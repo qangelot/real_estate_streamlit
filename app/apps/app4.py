@@ -1,44 +1,60 @@
-from utils.utils import timed, data20, st
 import numpy as np
-import folium
-from streamlit_folium import folium_static
 import pandas as pd
+import streamlit as st
+import plotly.express as px
+from utils.utils import timed, dfs, st, YEARS
 
 
 # CREATING FUNCTION FOR MAPS
 @timed
-def map(data, midpoint):
+def map(df, lat, lon, midpoint, col):
 
-    map_osm = folium.Map(location=midpoint, zoom_start=5)
-    data.apply(lambda row : folium.CircleMarker(location=[row["latitude"], row["longitude"]], 
-                                              radius=10, fill_color=row['valeur_fonciere_q5'])
-                                             .add_to(map_osm), axis=1)
-    folium_static(map_osm)
+    fig = px.density_mapbox(df, lat=lat, lon=lon, z=col, hover_data=['surface_reelle_bati', 'nombre_pieces_principales'], 
+                        radius=10, center=dict(lat=midpoint[0], lon=midpoint[1]), zoom=9,
+                        width=800, height=700, mapbox_style="stamen-terrain")
+
+    fig.update_layout(
+        paper_bgcolor= "#F8F8F8",
+        margin=dict(
+                l=15, r=15, b=35, t=35 
+        )
+    )
+    fig.update_coloraxes(showscale=False)
+
+    st.plotly_chart(fig)
 
 
 def app():
 
-    st.write("")
+
+    year_choice = st.sidebar.selectbox('Select year:', YEARS)
+
+    # FILTERING DATA BY YEARS
+    df = dfs[year_choice]
 
     st.header("**Geospatial analysis**")
     
     st.write("")
 
+    areas = df['code_departement'].drop_duplicates().sort_values()
+    area_code = st.selectbox('Select your area:', areas)
+
+    # FILTERING DATA BY HOUR SELECTED
+    sampled = df[df['code_departement'] == area_code]
+
     # sampling only part of the data for computation speed
-    sampled = data20.sample(frac =.99)
-    sampled.dropna(inplace=True)
+    sampled.dropna(subset=['valeur_fonciere', 'surface_reelle_bati', 'nombre_pieces_principales', 'latitude', 'longitude'], inplace=True)
     
     # LAYING OUT THE MIDDLE SECTION OF THE APP WITH THE MAPS
     midpoint = [np.average(sampled["latitude"]), np.average(sampled["longitude"])]  
 
-    sampled['valeur_fonciere_q5'] = pd.qcut(sampled['valeur_fonciere'], 5, labels=False)
-
-
-    st.subheader("Geospatial analysis of major real estate transactions in France in 2020")
     st.write("")
 
-    st.write("Please do note that this is a macro analysis and some data isn't shown if the amount of transactions is below a certain threshold.")
-    st.write("")
+    st.subheader(f"Geospatial analysis of real estate transactions in {area_code}")
     st.write("")
 
-    map(sampled, midpoint)
+    st.write("Please do note that some data isn't shown if the amount of transactions is below a certain threshold.")
+    st.write("")
+
+    map(sampled, 'latitude', 'longitude', midpoint, 'valeur_fonciere')
+    st.markdown("_Color intensity correlate positively with valeur_fonciere._")

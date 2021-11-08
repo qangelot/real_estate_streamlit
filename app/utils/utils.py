@@ -4,7 +4,10 @@ import logging
 from functools import wraps
 import streamlit as st
 from typing import List
+from tqdm import tqdm
 
+
+YEARS = ['2021', '2020', '2019', '2018', '2017', '2016']
 
 # define the logging
 logger = logging.getLogger(__name__)
@@ -82,35 +85,44 @@ def zscore_outliers(data, column, n):
     return data
 
 
+@st.cache(persist=True, allow_output_mutation=True)
+def datasets_merging():
+
+    merged_df = dfs[YEARS[0]]
+    merged_df.set_index('date_mutation', inplace=True)
+    for year in dfs.keys():
+        if year != YEARS[0]:
+            dfs[year].set_index('date_mutation', inplace=True)
+            merged_df = pd.concat([merged_df, dfs[year]])
+            
+    return merged_df
+
+
 # preprocess dataset for analysis
 @timed
-@st.cache(persist=True)
-def preprocess_data():
+@st.cache(persist=True, allow_output_mutation=True)
+def preprocess_data(data):
     
-    df = pd.read_csv('../data/sample_enhanced.csv', sep=',', header=0, low_memory=False)
-    optimize_floats(optimize_ints(optimize_objects(df, 'date_mutation')))
+    df = pd.read_csv(f'../data/{data}.csv', sep=',', header=0, low_memory=False)
+    df = optimize_floats(optimize_ints(optimize_objects(df, 'date_mutation')))
     
     lowercase = lambda x: str(x).lower()
     df.rename(lowercase, axis="columns", inplace=True)
 
-    # convert to datetime
-    df['date_mutation'] =  pd.to_datetime(df['date_mutation'])
-
     # derive features based on datetime column
     df['mois_mutation']=df['date_mutation'].dt.month
-
-    # remove useless columns 
-    df = df[df.columns[df.isna().sum()/df.shape[0] <= 0.9]]
-    df.drop(['id_mutation', 'id_parcelle', 'code_postal', 'code_type_local', 'code_commune', 'adresse_numero', 'adresse_code_voie', 'adresse_nom_voie', 'code_nature_culture'], inplace=True, axis=1)
 
     to_handle = ['valeur_fonciere', 'nombre_lots', 'surface_reelle_bati', 'nombre_pieces_principales', 'surface_terrain']
     for col in to_handle:
         df = zscore_outliers(df, col, 2)
 
-    # création de sous-ensembles has_lot / no_lot
-    has_lot = df[df['nombre_lots'] == 1]
-    no_lot = df[df['nombre_lots'] == 0]
+    return df
 
-    return df, has_lot, no_lot
 
-data20, has_lot, no_lot = preprocess_data()
+datas = ["clean_sample_2021", "clean_sample_2020", "clean_sample_2019", "clean_sample_2018", "clean_sample_2017", "clean_sample_2016"]
+dfs = dict()
+for data in tqdm(datas):
+    year = data[-4:]
+    dfs[str(year)] = preprocess_data(data)
+
+merged_df = datasets_merging()
