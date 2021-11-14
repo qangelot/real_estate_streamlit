@@ -37,7 +37,7 @@ def optimize_objects(df: pd.DataFrame, datetime_features: List[str]) -> pd.DataF
 
 def preprocessing(data, frac=.3):
 
-    data = pd.read_csv(data, sep=',', header=0, low_memory=False)
+    data = pd.read_csv(f'app/{data}', sep=',', header=0, low_memory=False)
     data = optimize_floats(optimize_ints(optimize_objects(data, 'date_mutation')))
 
     # remove useless columns 
@@ -58,5 +58,5 @@ for data in tqdm(datas):
         data_cleaned = preprocessing(data, frac=.6)
     else:
         data_cleaned = preprocessing(data)
-    data_cleaned.to_csv(f'data/clean_sample_{year}.csv', index=False)
+    data_cleaned.to_csv(f'app/data/clean_sample_{year}.csv', index=False)
 

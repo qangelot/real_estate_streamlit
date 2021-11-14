@@ -5,6 +5,7 @@ from functools import wraps
 import streamlit as st
 from typing import List
 from tqdm import tqdm
+from pathlib import Path
 
 
 YEARS = ['2021', '2020', '2019', '2018', '2017', '2016']
@@ -103,7 +104,6 @@ def datasets_merging():
 @st.cache(persist=True, allow_output_mutation=True)
 def preprocess_data(data):
 
-    from pathlib import Path
     path = Path(__file__).parents[1]
     df = pd.read_csv(f'{path}/data/{data}.csv', sep=',', header=0, low_memory=False)
     df = optimize_floats(optimize_ints(optimize_objects(df, 'date_mutation')))

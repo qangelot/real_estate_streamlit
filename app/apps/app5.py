@@ -14,10 +14,18 @@ def timeseries_decomposition(df):
     
     # proceeding to TS decomposition using statsmodels api
     df['valeur_fonciere'].clip(upper=df['valeur_fonciere'].quantile(.9), inplace=True)
-    time_serie = df.groupby('date_mutation').valeur_fonciere.median()
+
+    # aggregating data weekly
+    df.index = pd.to_datetime(df.index)
+    df['week'] = df.index.week
+    df['year'] = df.index.year  
+    df['week_year'] = df['week'].astype('str') + '_' + df['year'].astype('str')
+
+    # computing time series decomposition
+    time_serie = df.groupby(['week_year'])['valeur_fonciere'].median()
     time_serie.fillna(method="ffill", inplace=True)
     time_serie_date = time_serie.index
-    decomposed_full = sm.tsa.seasonal_decompose(time_serie, period=60, extrapolate_trend='freq')
+    decomposed_full = sm.tsa.seasonal_decompose(time_serie, period=10, extrapolate_trend='freq')
 
 
     # global attendance graph
@@ -28,12 +36,12 @@ def timeseries_decomposition(df):
         x = time_serie_date.tolist(),
         y = decomposed_full.observed.tolist(),
         mode = 'lines',
-        name = 'Daily evolution of median prices',
+        name = 'Weekly evolution of median prices',
         line=dict(color="#548CA8")
         )
     ) 
 
-    evo_global_layout = dict(title = "Daily evolution of median prices",
+    evo_global_layout = dict(title = "Weekly evolution of median prices",
                     xaxis = dict(title = 'Time'),
                     yaxis = dict(title = 'Median price'),
                     paper_bgcolor="#F8F8F8",
