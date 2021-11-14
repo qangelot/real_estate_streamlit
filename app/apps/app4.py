@@ -53,8 +53,7 @@ def app():
     st.subheader(f"Geospatial analysis of real estate transactions in {area_code}")
     st.write("")
 
-    st.write("Please do note that some data isn't shown if the amount of transactions is below a certain threshold.")
-    st.write("")
+    st.write("Please do note that some data is not shown if the amount of transactions is below a certain threshold.")
 
     map(sampled, 'latitude', 'longitude', midpoint, 'valeur_fonciere')
     st.markdown("_Color intensity correlate positively with valeur_fonciere._")

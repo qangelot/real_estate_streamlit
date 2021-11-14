@@ -1,6 +1,6 @@
 # Streamlit app about DVF datasets
 
-That repository contains the Streamlit dataviz app itself aswell as the scripts and notebooks necessary to explore and preprocess the DVF datasets coming from https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres/ website. There is 5 of them : 2016/2017/2018/2019/2020.
+That repository contains the Streamlit dataviz app itself aswell as the scripts and notebooks necessary to explore and preprocess the DVF datasets coming from https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres/ website. There is 6 of them : 2016, 2017, 2018, 2019, 2020 and 2021.
 
 ## Prerequisites
 
@@ -26,11 +26,11 @@ First run may take some time, for next runs, most of the data will be cached.
 
 ## Architecture
 
-Notebooks contain exploratory data analysis steps as well and exploration of some other government datasets that might be of interest to improve analysis (crimes and taxes datas).
+- Notebooks contain exploratory data analysis steps as well and exploration of some other government datasets that might be of interest to improve analysis (crimes and taxes datas).
 
-Data folder holds the data that have been preprocessed and sampled through notebooks and python script. 
+- Data folder holds the data that have been preprocessed and sampled (using the pandas sample() method) through notebooks and python script. 
 
-App folder contains the streamlit app itself. It worth mentionning the multiapp.py file that allows for multipages streamlit app implementations. Also, utils.py is called to handle the remaining processing when the app is launching.
+- App folder contains the streamlit app itself. It worth mentionning the multiapp.py file that allows for multipages streamlit app implementations. Also, utils.py is called to handle the remaining processing when the app is launching. Finally, the different pages are instanciented into the app.py file and their content is built inside each file contained into the /apps folder.
 
 
 ## Licence
