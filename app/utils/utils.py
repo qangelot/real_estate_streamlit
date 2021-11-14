@@ -103,7 +103,7 @@ def datasets_merging():
 @st.cache(persist=True, allow_output_mutation=True)
 def preprocess_data(data):
     
-    df = pd.read_csv(f'../data/{data}.csv', sep=',', header=0, low_memory=False)
+    df = pd.read_csv(f'data/{data}.csv', sep=',', header=0, low_memory=False)
     df = optimize_floats(optimize_ints(optimize_objects(df, 'date_mutation')))
     
     lowercase = lambda x: str(x).lower()
