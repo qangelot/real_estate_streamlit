@@ -16535,3 +16535,12 @@
 2021-11-14 08:36:19,657 INFO -- timeseries_decomposition ran in 0.07s
 2021-11-14 08:36:27,715 INFO -- timeseries_decomposition ran in 0.08s
 2021-11-14 08:36:35,452 INFO -- timeseries_decomposition ran in 0.08s
+2021-11-14 08:47:41,221 INFO -- preprocess_data ran in 3.25s
+2021-11-14 08:47:45,077 INFO -- preprocess_data ran in 3.86s
+2021-11-14 08:47:49,539 INFO -- preprocess_data ran in 4.46s
+2021-11-14 08:47:53,781 INFO -- preprocess_data ran in 4.24s
+2021-11-14 08:47:58,082 INFO -- preprocess_data ran in 4.3s
+2021-11-14 08:48:02,164 INFO -- preprocess_data ran in 4.08s
+2021-11-14 08:48:15,106 INFO -- plot_dist ran in 0.04s
+2021-11-14 08:48:15,125 INFO -- plot_dist ran in 0.02s
+2021-11-14 08:48:15,177 INFO -- plot_dist ran in 0.05s
